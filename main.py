@@ -8,8 +8,7 @@ def open_excel(excel_name):
 	all_names = []
 	for row in ws.iter_rows(values_only=True):  
 		all_names.append(row['1'])  # to do
-	new_filename = f'v2_{excel_name}'
-	wb.save(filename = new_filename)
+	wb.save(f'_{excel_name}')
 	return all_names
 
 def search_object(all_names):
@@ -22,7 +21,7 @@ def search_object(all_names):
 		all_parents = get_parents(name, link)
 
 def get_parents(name, link):
-	all_parents_list = {}
+	all_parents_list = []
 	parent_name_now = {}
 	parent_name_now[name] = link
 	while True:
@@ -37,5 +36,11 @@ def get_parents(name, link):
 			break
 		all_parents_list.append(', '.join(adding_parent.keys()) if len(adding_parent.keys())>1 else adding_parent.keys()[0])
 		parent_name_now = adding_parent
-
+	return all_parents_list
 			
+def adding_parents_excel (all_parents_list, excel_name):
+	wb = Workbook(excel_name)
+	ws = wb.active
+	ws.insert_cols(1) # вставляем колонку перед основным названием
+	...
+	wb.save(f'v2_{excel_name}')
