@@ -25,16 +25,17 @@ def get_parents(name, link):
 	all_parents_list = {}
 	parent_name_now = {}
 	parent_name_now[name] = link
-	while 'pathways' not in parent_name_now:
-		if parent_name_now < 2:
-			r = request.get(link)  # to do
+	while True:
+		adding_parent = {}
+		for key in parent_name_now.keys():
+			r = request.get(parent_name_now[key])  # to do
 			soup = BeautifulSoup(r, 'html.parser')  # to do
-			links_name = soup.find_all("a", class_='...') #class = '' как-то там называющийся класс-родитель
-			links = soup.find_all("a", class_='...') # .get (href) # class = '' как-то там называющийся класс-родитель
-			for link in links_name:
-				parent_name_now.append(link.text()) # to do
-			all_parents_list.append(', '.join(parent_name_now) if len(parent_name_now)>1 else parent_name_now)
-			
-		else:
-			
+			link_name = soup.find("a", class_='...').text #class = '' как-то там называющийся класс-родитель
+			link = soup.find("a", class_='...') # .get (href) # class = '' как-то там называющийся класс-родитель
+			adding_parent[link_name] = link
+		if 'pathways' in adding_parent.keys():
+			break
+		all_parents_list.append(', '.join(adding_parent.keys()) if len(adding_parent.keys())>1 else adding_parent.keys()[0])
+		parent_name_now = adding_parent
+
 			
