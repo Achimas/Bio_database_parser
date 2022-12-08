@@ -55,3 +55,12 @@ def adding_parents_excel (parents_to_xls, excel_name):
 			cell = f'{cells_symbol}{i+2}'
 			ws[cell]=parents_to_xls[i][j]
 	wb.save(f'v2_{excel_name}')
+
+def main():
+	excel_name = 'raw_lines.xls'
+	all_names = open_excel(excel_name)
+	parents_to_xls = search_objects(all_names)
+	adding_parents_excel(parents_to_xls, excel_name)
+	
+if __name__ == '__main__':
+	main()
